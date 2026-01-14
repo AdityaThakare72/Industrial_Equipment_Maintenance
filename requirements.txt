@@ -1,0 +1,20 @@
+# --- Data Science Core ---
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+
+# --- MLOps Infrastructure ---
+mlflow        # To track our experiments
+dvc           # To version our sensor data
+fastapi       # For our production API
+uvicorn       # To run the FastAPI server
+
+# --- Quality & Testing ---
+ruff          # Replacing black: it's 100x faster!
+pytest        # Our testing framework
+
+# --- Development Support ---
+ipykernel     # To run notebooks inside this environment
+python-dotenv # To manage secret API keys and configs
