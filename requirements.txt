@@ -4,6 +4,7 @@ numpy
 matplotlib
 seaborn
 scikit-learn
+xgboost
 
 # --- MLOps Infrastructure ---
 mlflow        # To track our experiments

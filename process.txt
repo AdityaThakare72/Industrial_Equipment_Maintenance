@@ -1,0 +1,5 @@
+** DVC
+
+since we are using dvc not going to put data folder in the gitignore file as once we add data (tracking through dvc) it automatically creates a file (with .dvc format) which tells git to ignore it
+
+so just add the data file to dvc with => dvc add <file path>

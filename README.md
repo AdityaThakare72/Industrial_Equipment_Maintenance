@@ -9,9 +9,7 @@ env with conda => industrial_mantainance
 
 An end-to-end MLOps pipeline for predictive maintenance, automating fault detection and model lifecycle management.
 
-## Project Organization
-
-```
+## Project Organization 
 ├── LICENSE            <- Open-source license if one is chosen
 ├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
 ├── README.md          <- The top-level README for developers using this project.

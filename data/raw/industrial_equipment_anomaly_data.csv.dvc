@@ -1,0 +1,5 @@
+outs:
+- md5: f2de6b4311ef301d2f2188ccb162ae42
+  size: 733715
+  hash: md5
+  path: industrial_equipment_anomaly_data.csv
