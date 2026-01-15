@@ -158,3 +158,13 @@ Scenario:
     scale_pos_weight = 95 / 5 = 19.
 
 Now, every time XGBoost trains, the error from a "Faulty" machine is treated as 19 times more important than the error from a "Healthy" one.
+
+
+
+################ Fats API ##########################
+
+to actually check
+
+In your browser, change the URL from http://127.0.0.1:8000/ to:
+
+    http://127.0.0.1:8000/docs
