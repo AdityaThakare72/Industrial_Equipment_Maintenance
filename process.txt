@@ -100,3 +100,8 @@ What happens? DVC looks at the "Scroll" (dvc.yaml), sees that the output is miss
 
 dataset.py => ingest
 features.py => feature engg
+
+####################
+
+for training... -> modeling/train.py
+for hyper-parameters -> params.yaml  (also added the model as parameter)

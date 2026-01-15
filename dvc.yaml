@@ -15,3 +15,16 @@ stages:
     outs:
       - data/processed/featured_data.csv
       - models/preprocessor.joblib
+  
+  train:
+    cmd: python industrial_maintenance/modeling/train.py
+    deps:
+      - industrial_maintenance/modeling/train.py
+      - data/processed/featured_data.csv
+    params:
+      - model_type
+      - train
+      - random_forest
+      - xgboost
+    outs:
+      - models/model.joblib

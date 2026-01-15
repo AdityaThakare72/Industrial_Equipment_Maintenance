@@ -36,3 +36,52 @@ stages:
       hash: md5
       md5: e32e273aef2bb118a26feba180030f57
       size: 3105
+  train:
+    cmd: python industrial_maintenance/modeling/train.py
+    deps:
+    - path: data/processed/featured_data.csv
+      hash: md5
+      md5: 66e5766101e47d812386bcb47c92460d
+      size: 866824
+    - path: industrial_maintenance/modeling/train.py
+      hash: md5
+      md5: 4a334b2ffa9d33e2124d03e1c34b2fa9
+      size: 2870
+    params:
+      params.yaml:
+        model_type: random_forest
+        random_forest:
+          param_grid:
+            n_estimators:
+            - 100
+            - 200
+            max_depth:
+            - 5
+            - 10
+            - 
+            min_samples_split:
+            - 2
+            - 5
+        train:
+          cv_folds: 5
+          random_state: 42
+        xgboost:
+          param_grid:
+            n_estimators:
+            - 100
+            - 200
+            max_depth:
+            - 3
+            - 6
+            - 9
+            learning_rate:
+            - 0.01
+            - 0.1
+            subsample:
+            - 0.8
+            - 1.0
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: ee8e5c85e881c0df28930e5ecd7cfae3
+      size: 2354713
