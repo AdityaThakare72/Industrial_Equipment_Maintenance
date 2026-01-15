@@ -16,3 +16,23 @@ stages:
       hash: md5
       md5: 535fff8e890455a8a280c5adb5c830ce
       size: 707404
+  featurize:
+    cmd: python industrial_maintenance/features.py
+    deps:
+    - path: data/interim/cleaned_data.csv
+      hash: md5
+      md5: 535fff8e890455a8a280c5adb5c830ce
+      size: 707404
+    - path: industrial_maintenance/features.py
+      hash: md5
+      md5: 46a816c8184138a76ab737f7371f2f0d
+      size: 2324
+    outs:
+    - path: data/processed/featured_data.csv
+      hash: md5
+      md5: 66e5766101e47d812386bcb47c92460d
+      size: 866824
+    - path: models/preprocessor.joblib
+      hash: md5
+      md5: e32e273aef2bb118a26feba180030f57
+      size: 3105

@@ -50,6 +50,7 @@ Command	                                        Purpose
 git branch	                          Lists all your current "Parallel Universes."
 git checkout -b <name>	              Create a new universe and jump into it.
 git checkout <name>	                  Jump between existing universes.
+git merge <branch name>               when on main merge other branch with it (switch to main first before doing)
 git branch -d <name>	              Destroy a universe (after you've merged it).
 git push origin <name>	              Send your specific branch to GitHub so others can see it. 
 
@@ -92,3 +93,10 @@ Now, delete your data/interim/cleaned_data.csv manually. Then, instead of runnin
 dvc repro
 
 What happens? DVC looks at the "Scroll" (dvc.yaml), sees that the output is missing, checks that the dependencies are there, and runs the command for you. It then automatically handles the tracking of data/interim/cleaned_data.csv.
+
+
+
+###################################
+
+dataset.py => ingest
+features.py => feature engg

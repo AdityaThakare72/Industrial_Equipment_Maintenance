@@ -6,3 +6,12 @@ stages:
       - data/raw/industrial_equipment_anomaly_data.csv
     outs:
       - data/interim/cleaned_data.csv
+      
+  featurize:
+    cmd: python industrial_maintenance/features.py
+    deps:
+      - industrial_maintenance/features.py
+      - data/interim/cleaned_data.csv
+    outs:
+      - data/processed/featured_data.csv
+      - models/preprocessor.joblib
