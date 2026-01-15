@@ -105,3 +105,56 @@ features.py => feature engg
 
 for training... -> modeling/train.py
 for hyper-parameters -> params.yaml  (also added the model as parameter)
+
+
+
+
+############## CLASS IMBALANCE (Algorithm Level Solution)  ###############
+class_weight='balanced' and scale_pos_weight—is an Algorithm-Level solution. Instead of changing the data, we change the Loss Function (the model's "Cost of Failure").
+
+The Core Difference
+
+Think of it this way:
+
+    SMOTE/Oversampling: You invite more "rare" students to the classroom so the teacher sees them more often.
+
+    Class Weighting (The Algorithm Way): You don't invite more students, but you tell the teacher: "Every time you fail to help a 'rare' student, it counts as 10 mistakes on your evaluation, but failing a common student only counts as 1".
+
+    Why is the "Algorithm Way" often better?
+
+    No Ghost Data: SMOTE can create "noisy" data points that don't actually exist in the real world.
+
+    Speed: You don't increase your dataset size, so your training stays fast—essential for your Arch Linux workflow.
+
+    Memory: You don't need to store millions of duplicate or synthetic rows.
+
+    1. For Random Forest: class_weight='balanced'
+    When you set this, Scikit-learn automatically calculates a weight (wj​) for each class (j) using this formula:
+
+            wj​=nclasses​×nsamples,j​nsamples​​
+
+    nsamples​: Total samples.
+
+    nclasses​: Number of classes (for us, 2).
+
+    nsamples,j​: Number of samples in that specific class.
+
+Result: If failures are rare, they get a massive weight. During training, the Random Forest will work much harder to correctly split the nodes for those rare failures.
+
+
+2. For XGBoost: scale_pos_weight
+
+XGBoost uses a single number to scale the "Gradient" (the error signal) for the positive class (the failures).
+
+The standard formula we used is:
+scale_pos_weight=count(PositiveSamples)count(NegativeSamples)​
+
+Scenario:
+
+    95 Healthy machines (Negative).
+
+    5 Faulty machines (Positive).
+
+    scale_pos_weight = 95 / 5 = 19.
+
+Now, every time XGBoost trains, the error from a "Faulty" machine is treated as 19 times more important than the error from a "Healthy" one.
