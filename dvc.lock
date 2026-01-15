@@ -45,8 +45,8 @@ stages:
       size: 866824
     - path: industrial_maintenance/modeling/train.py
       hash: md5
-      md5: 4a334b2ffa9d33e2124d03e1c34b2fa9
-      size: 2870
+      md5: 7cc0491f75a1eb343fe64a4a6e63ec22
+      size: 2716
     params:
       params.yaml:
         model_type: xgboost
@@ -83,5 +83,5 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 4e602e47fe596ff9225166cfc7d740b6
-      size: 213732
+      md5: c24b79921c6b4acedb31a7e3d1ccdcf5
+      size: 466839
