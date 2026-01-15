@@ -49,7 +49,7 @@ stages:
       size: 2870
     params:
       params.yaml:
-        model_type: random_forest
+        model_type: xgboost
         random_forest:
           param_grid:
             n_estimators:
@@ -83,5 +83,5 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: ee8e5c85e881c0df28930e5ecd7cfae3
-      size: 2354713
+      md5: 4e602e47fe596ff9225166cfc7d740b6
+      size: 213732

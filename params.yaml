@@ -1,5 +1,5 @@
 # Selection: "random_forest" or "xgboost"
-model_type: "random_forest"
+model_type: "xgboost"
 
 # Shared parameters
 train:
