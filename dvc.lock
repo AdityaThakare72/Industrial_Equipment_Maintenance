@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python industrial_maintenance/dataset.py
+    deps:
+    - path: data/raw/industrial_equipment_anomaly_data.csv
+      hash: md5
+      md5: f2de6b4311ef301d2f2188ccb162ae42
+      size: 733715
+    - path: industrial_maintenance/dataset.py
+      hash: md5
+      md5: acc2f89f59cd2e38a9856c0d82fb10da
+      size: 1684
+    outs:
+    - path: data/interim/cleaned_data.csv
+      hash: md5
+      md5: 535fff8e890455a8a280c5adb5c830ce
+      size: 707404

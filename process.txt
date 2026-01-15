@@ -3,3 +3,92 @@
 since we are using dvc not going to put data folder in the gitignore file as once we add data (tracking through dvc) it automatically creates a file (with .dvc format) which tells git to ignore it
 
 so just add the data file to dvc with => dvc add <file path>
+
+NOTE: mnake sure we add the data file to dvc first and then git commit otherwise if we do viceversa then git will track the data file as well. If that happens => git rm --cached data/raw/industrial_equipment_anomaly_data.csv
+dvc add data/raw/industrial_equipment_anomaly_data.csv
+
+
+** 
+Now before moving lets keep the main branch separate
+
+COMMANDS FOR BRANCHING =>
+
+1.
+# This creates a branch and switches you to it immediately
+git checkout -b feat/data-ingestion
+
+The -b flag means Create a new branch.
+
+2.
+Now you write your dataset.py code. You commit your changes as you go.
+git add industrial_maintenance/dataset.py
+git commit -m "feat: implement raw data loading and initial cleaning"
+These commits only exist in the feat/data-ingestion
+
+3.
+If you need to see your "stable" code again:
+git checkout main
+Suddenly, your dataset.py goes back to being empty! Don't worry, your work is safe in the other branch.
+
+4.
+Merging
+Once you are 100% sure your code works and is clean, you bring that "future" into the "present":
+# Switch to main first
+git checkout main
+
+# Pull the changes from the feature branch into main
+git merge feat/data-ingestion
+
+
+NOTE: the content of the new branch you create will depend on => on which branch u were when u created this new one
+
+
+###### Essential Commands ######
+
+Command	                                        Purpose
+
+git branch	                          Lists all your current "Parallel Universes."
+git checkout -b <name>	              Create a new universe and jump into it.
+git checkout <name>	                  Jump between existing universes.
+git branch -d <name>	              Destroy a universe (after you've merged it).
+git push origin <name>	              Send your specific branch to GitHub so others can see it. 
+
+
+
+########################### DVC PIPELINE ####################################
+
+If we start using DVC Pipelines (dvc.yaml) now, our future GitHub Actions (the CI/CD ) will be able to run our entire experiment automatically whenever you push new code or data.
+
+The "Automation" (dvc.yaml)
+
+Instead of you manually running python dataset.py and then dvc add, we will define a Stage. This stage tells DVC the three things:
+
+    Dependencies (deps): What does this script need to run? (The code and the raw data).
+
+    Command (cmd): How do we run it?
+
+    Outputs (outs): What does it produce? (The interim data).
+
+
+
+
+Step 1: Create the dvc.yaml File
+
+In your project root (on your exp-branch), create a file named dvc.yaml
+
+stages:
+  ingest:
+    cmd: python industrial_maintenance/dataset.py
+    deps:
+      - industrial_maintenance/dataset.py
+      - data/raw/industrial_equipment_anomaly_data.csv
+    outs:
+      - data/interim/cleaned_data.csv
+
+
+Step 2: The "Reproduction" Ritual
+
+Now, delete your data/interim/cleaned_data.csv manually. Then, instead of running python, run this command in your Arch terminal:
+dvc repro
+
+What happens? DVC looks at the "Scroll" (dvc.yaml), sees that the output is missing, checks that the dependencies are there, and runs the command for you. It then automatically handles the tracking of data/interim/cleaned_data.csv.

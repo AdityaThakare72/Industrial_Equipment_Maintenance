@@ -1,0 +1,8 @@
+stages:
+  ingest:
+    cmd: python industrial_maintenance/dataset.py
+    deps:
+      - industrial_maintenance/dataset.py
+      - data/raw/industrial_equipment_anomaly_data.csv
+    outs:
+      - data/interim/cleaned_data.csv
