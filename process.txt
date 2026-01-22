@@ -163,8 +163,32 @@ Now, every time XGBoost trains, the error from a "Faulty" machine is treated as 
 
 ################ Fats API ##########################
 
+app/main.py  file
+
 to actually check
 
 In your browser, change the URL from http://127.0.0.1:8000/ to:
 
     http://127.0.0.1:8000/docs
+
+
+################## Done with streamlit  ################
+
+app/dashboard file
+
+##################### To run the streamlit file  ################
+
+need to run following in the order in different terminals
+
+conda activate industrial_maintenance
+mlflow ui
+uvicorn app.main:app --reload
+streamlit run app/dashboard.py
+
+#### Connection Summary ####
+
+Service    Port    Talk To                  Protocol
+
+MLflow     5000    Filesystem (mlruns)      HTTP (Internal)
+FastAPI    8000    MLflow (Port 5000)       REST API
+Streamlit  8501    FastAPI (Port 8000)      REST API
