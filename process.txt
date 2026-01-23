@@ -192,3 +192,17 @@ Service    Port    Talk To                  Protocol
 MLflow     5000    Filesystem (mlruns)      HTTP (Internal)
 FastAPI    8000    MLflow (Port 5000)       REST API
 Streamlit  8501    FastAPI (Port 8000)      REST API
+
+
+
+
+########################  DEPLOYMENT #####################
+##########################################################
+
+---------> digital ocean <--------------
+
+------> 1 <-------
+On your local Arch machine, create a bundle of the code and the model's memory.
+
+# Tar up everything needed (excluding local env folders)
+tar -cvzf maintenance_native.tar.gz app/ mlruns/ mlflow.db requirements.txt
