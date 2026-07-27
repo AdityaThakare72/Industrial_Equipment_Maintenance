@@ -1,12 +1,15 @@
-import pandas as pd
-import joblib
-import yaml
-import mlflow
-import numpy as np
 from pathlib import Path
+
+import joblib
+import mlflow
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV, train_test_split
+from xgboost import XGBClassifier
+import yaml
+
+from industrial_maintenance.config import MLFLOW_EXPERIMENT_NAME
+
 
 def train_selected_model(input_path: Path, model_output_path: Path, params_path: Path):
     with open(params_path, "r") as f:
@@ -24,9 +27,9 @@ def train_selected_model(input_path: Path, model_output_path: Path, params_path:
     pos_count = (y == 1).sum()
     imbalance_ratio = neg_count / pos_count
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, 
-        random_state=shared_params["random_state"], 
+    X_train, _, y_train, _ = train_test_split(
+        X, y, test_size=0.2,
+        random_state=shared_params["random_state"],
         stratify=y
     )
 
@@ -46,7 +49,7 @@ def train_selected_model(input_path: Path, model_output_path: Path, params_path:
         )
         param_grid = config["xgboost"]["param_grid"]
 
-    mlflow.set_experiment("Industrial_Maintenance_Experiments")
+    mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
     with mlflow.start_run(run_name=f"Final_{model_type}"):
         grid_search = GridSearchCV(

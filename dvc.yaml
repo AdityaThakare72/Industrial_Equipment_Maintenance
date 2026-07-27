@@ -28,3 +28,18 @@ stages:
       - xgboost
     outs:
       - models/model.joblib
+
+  evaluate:
+    cmd: python industrial_maintenance/modeling/predict.py
+    deps:
+      - industrial_maintenance/modeling/predict.py
+      - data/processed/featured_data.csv
+      - models/model.joblib
+    params:
+      - train.random_state
+    metrics:
+      - reports/metrics.json:
+          cache: false
+    plots:
+      - reports/predictions.csv:
+          cache: false

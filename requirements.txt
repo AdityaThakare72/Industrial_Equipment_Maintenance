@@ -1,21 +1,33 @@
 # --- Data Science Core ---
-pandas
-numpy
-matplotlib
-seaborn
-scikit-learn
-xgboost
+pandas==2.3.3
+numpy==2.5.1
+matplotlib==3.11.1
+seaborn==0.13.2
+scikit-learn==1.9.0
+xgboost==3.3.0
 
 # --- MLOps Infrastructure ---
-mlflow        # To track our experiments
-dvc           # To version our sensor data
-fastapi       # For our production API
-uvicorn       # To run the FastAPI server
+mlflow==3.14.0        # To track our experiments
+dvc==3.67.1           # To version our sensor data
+fastapi==0.140.0      # For our production API
+uvicorn==0.51.0       # To run the FastAPI server
+gunicorn==26.0.0      # Production WSGI server for Render deployment
 
 # --- Quality & Testing ---
-ruff          # Replacing black: it's 100x faster!
-pytest        # Our testing framework
+ruff==0.16.0          # Replacing black: it's 100x faster!
+pytest==9.1.1         # Our testing framework
+httpx==0.28.1
 
 # --- Development Support ---
-ipykernel     # To run notebooks inside this environment
-python-dotenv # To manage secret API keys and configs
+ipykernel==7.3.0      # To run notebooks inside this environment
+python-dotenv==1.2.2  # To manage secret API keys and configs
+
+# --- Previously Missing (now explicit) ---
+streamlit==1.60.0
+requests==2.34.2
+loguru==0.7.3
+typer==0.27.0
+tqdm==4.69.1
+pydantic==2.13.4
+joblib==1.5.3
+pyyaml==6.0.3

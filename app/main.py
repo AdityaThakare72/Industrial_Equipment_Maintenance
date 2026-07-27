@@ -1,23 +1,22 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 import joblib
 import pandas as pd
-from pathlib import Path
+from pydantic import BaseModel
+
+from industrial_maintenance.config import MODEL_PATH, PREPROCESSOR_PATH
 
 app = FastAPI(title="Industrial Anomaly Agent")
 
-# Load the "Sacred Relics" (Preprocessor and the best XGBoost Model)
-MODEL_PATH = Path("models/model.joblib")
-PREPROCESSOR_PATH = Path("models/preprocessor.joblib")
+# Load trained model and preprocessor at startup
 
-# Ensure the hermit has his tools before starting
+# Fail fast if artifacts are missing
 if not MODEL_PATH.exists() or not PREPROCESSOR_PATH.exists():
     raise RuntimeError("Model or Preprocessor missing. Run 'dvc repro' first.")
 
 model = joblib.load(MODEL_PATH)
 preprocessor = joblib.load(PREPROCESSOR_PATH)
 
-# The "Bouncer": Defining exactly what sensor data looks like
+# Request schema for sensor readings
 class SensorData(BaseModel):
     temperature: float
     pressure: float
@@ -51,5 +50,7 @@ def predict(data: SensorData):
             "failure_probability": f"{probability:.2%}",
             "status": "Success"
         }
-    except Exception as e:
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=str(e))

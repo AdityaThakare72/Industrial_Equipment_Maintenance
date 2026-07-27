@@ -1,6 +1,11 @@
-import streamlit as st
-import requests
 import base64
+import os
+
+from dotenv import load_dotenv
+import requests
+import streamlit as st
+
+load_dotenv()
 
 # ======================================================
 # SESSION STATE
@@ -27,7 +32,7 @@ def get_base64_of_bin_file(path):
 img_base64 = get_base64_of_bin_file("app/background.png")
 
 # ======================================================
-# CUSTOM CSS (STEAMPUNK / GHIBLI)
+# CUSTOM CSS
 # ======================================================
 st.markdown(
     f"""
@@ -89,11 +94,11 @@ with st.sidebar:
     st.markdown("### 🏭 Configuration")
     equipment = st.selectbox(
         "Equipment Type",
-        ["Turbine", "Compressor", "Generator"]
+        ["Turbine", "Compressor", "Pump"]
     )
     location = st.selectbox(
         "Plant Location",
-        ["Atlanta", "Chicago", "Pune", "Guwahati"]
+        ["Atlanta", "Chicago", "San Francisco", "New York", "Houston"]
     )
 
 # ======================================================
@@ -113,7 +118,7 @@ st.write("")
 # ======================================================
 # API CONFIG
 # ======================================================
-API_URL = "http://127.0.0.1:8001/predict"
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000") + "/predict"
 
 payload = {
     "temperature": temperature,
@@ -139,7 +144,7 @@ if st.button(
 # ======================================================
 if st.session_state.scan_ran:
 
-    with st.spinner("🔄 Neural Network analyzing sensor patterns..."):
+    with st.spinner("🔄 Running XGBoost diagnostic analysis..."):
         try:
             response = requests.post(
                 API_URL,
@@ -200,5 +205,5 @@ if st.session_state.scan_ran:
                 "Run: uvicorn app.main:app --port 8000"
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             st.error(f"Unexpected error: {e}")

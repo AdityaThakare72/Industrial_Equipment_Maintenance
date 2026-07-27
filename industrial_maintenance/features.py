@@ -1,9 +1,11 @@
-import pandas as pd
-import joblib
 from pathlib import Path
+
+import joblib
+import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
 
 def generate_features(input_path: Path, output_path: Path, model_path: Path):
     """
@@ -13,12 +15,12 @@ def generate_features(input_path: Path, output_path: Path, model_path: Path):
     """
     df = pd.read_csv(input_path)
     
-    # Define our pillars
+    # Define feature groups
     target = 'faulty'
     categorical_features = ['equipment', 'location']
     numerical_features = ['temperature', 'pressure', 'vibration', 'humidity']
     
-    # The Alchemy: Building the Pipeline
+    # Build preprocessing pipeline
     numeric_transformer = Pipeline(steps=[
         ('scaler', StandardScaler())
     ])
@@ -52,8 +54,7 @@ def generate_features(input_path: Path, output_path: Path, model_path: Path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     X_final.to_csv(output_path, index=False)
     
-    # Save the preprocessor itself (The 'Golden Seal')
-    # We will need this for the production API!
+    # Save fitted preprocessor for inference
     model_path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(preprocessor, model_path)
     

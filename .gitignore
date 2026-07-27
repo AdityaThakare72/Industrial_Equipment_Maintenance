@@ -3,6 +3,9 @@ Industrial_Anomaly_Detection_FULL_Guide_deployment.pdf
 # Mac OS-specific storage files
 .DS_Store
 
+# Linux-specific storage files
+.directory
+
 # vim
 *.swp
 *.swo
@@ -188,3 +191,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# --- AI Tooling ---
+.claude/
+CLAUDE.md
+claude.md
