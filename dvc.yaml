@@ -14,7 +14,6 @@ stages:
       - data/interim/cleaned_data.csv
     outs:
       - data/processed/featured_data.csv
-      - models/preprocessor.joblib
   
   train:
     cmd: python industrial_maintenance/modeling/train.py
@@ -26,8 +25,6 @@ stages:
       - train
       - random_forest
       - xgboost
-    outs:
-      - models/model.joblib
 
   evaluate:
     cmd: python industrial_maintenance/modeling/predict.py
