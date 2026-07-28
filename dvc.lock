@@ -9,8 +9,8 @@ stages:
       size: 733715
     - path: industrial_maintenance/dataset.py
       hash: md5
-      md5: acc2f89f59cd2e38a9856c0d82fb10da
-      size: 1684
+      md5: 4b15a00f37addbd7c02ab3c442a4fdcc
+      size: 1597
     outs:
     - path: data/interim/cleaned_data.csv
       hash: md5
@@ -25,8 +25,8 @@ stages:
       size: 707404
     - path: industrial_maintenance/features.py
       hash: md5
-      md5: 46a816c8184138a76ab737f7371f2f0d
-      size: 2324
+      md5: 4f694c948f4dd6763db17e70754478d6
+      size: 2265
     outs:
     - path: data/processed/featured_data.csv
       hash: md5
@@ -34,8 +34,8 @@ stages:
       size: 866824
     - path: models/preprocessor.joblib
       hash: md5
-      md5: e32e273aef2bb118a26feba180030f57
-      size: 3105
+      md5: f096a5db2f9a6e445e7b99580c7a2afb
+      size: 3073
   train:
     cmd: python industrial_maintenance/modeling/train.py
     deps:
@@ -45,8 +45,8 @@ stages:
       size: 866824
     - path: industrial_maintenance/modeling/train.py
       hash: md5
-      md5: 7cc0491f75a1eb343fe64a4a6e63ec22
-      size: 2716
+      md5: 78b849bc60976636d581cda07d303082
+      size: 2865
     params:
       params.yaml:
         model_type: xgboost
@@ -83,5 +83,32 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: c24b79921c6b4acedb31a7e3d1ccdcf5
-      size: 466839
+      md5: 3ad74e3fc12020bce9a69ae0cf2f0d4d
+      size: 477812
+  evaluate:
+    cmd: python industrial_maintenance/modeling/predict.py
+    deps:
+    - path: data/processed/featured_data.csv
+      hash: md5
+      md5: 66e5766101e47d812386bcb47c92460d
+      size: 866824
+    - path: industrial_maintenance/modeling/predict.py
+      hash: md5
+      md5: ae2ed7135088094df6035444dc13f3a4
+      size: 2774
+    - path: models/model.joblib
+      hash: md5
+      md5: 3ad74e3fc12020bce9a69ae0cf2f0d4d
+      size: 477812
+    params:
+      params.yaml:
+        train.random_state: 42
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 91f75f4812dc6e2b4231b871946c1abe
+      size: 623
+    - path: reports/predictions.csv
+      hash: md5
+      md5: 20af7d01ac54dddce09d28919318fe69
+      size: 6157

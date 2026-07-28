@@ -32,7 +32,7 @@ MODEL_PATH = Path(os.getenv("MODEL_PATH", "models/model.joblib"))
 PREPROCESSOR_PATH = Path(os.getenv("PREPROCESSOR_PATH", "models/preprocessor.joblib"))
 
 # --- MLflow ---
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "mlruns")
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
 MLFLOW_EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "Industrial_Maintenance_Experiments")
 
 # If tqdm is installed, configure loguru with tqdm.write

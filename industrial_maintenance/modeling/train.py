@@ -68,7 +68,11 @@ def train_selected_model(input_path: Path, model_output_path: Path, params_path:
         mlflow.log_param("model_family", model_type)
         mlflow.log_params(grid_search.best_params_)
         mlflow.log_metric("best_cv_f1_score", grid_search.best_score_)
-        mlflow.sklearn.log_model(best_model, "champion_model")
+        mlflow.sklearn.log_model(
+            best_model,
+            "champion_model",
+            skops_trusted_types=["xgboost.core.Booster", "xgboost.sklearn.XGBClassifier"],
+        )
 
         # Save for DVC
         model_output_path.parent.mkdir(parents=True, exist_ok=True)
