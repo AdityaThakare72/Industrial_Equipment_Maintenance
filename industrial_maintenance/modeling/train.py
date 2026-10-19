@@ -22,16 +22,16 @@ def train_selected_model(input_path: Path, model_output_path: Path, params_path:
     X = df.drop(columns=['faulty'])
     y = df['faulty']
 
-    # Calculate class imbalance for XGBoost
-    neg_count = (y == 0).sum()
-    pos_count = (y == 1).sum()
-    imbalance_ratio = neg_count / pos_count
-
     X_train, _, y_train, _ = train_test_split(
-        X, y, test_size=0.2,
+        X, y, test_size=shared_params["test_size"],
         random_state=shared_params["random_state"],
         stratify=y
     )
+
+    # Class imbalance for XGBoost, from the training rows only
+    neg_count = (y_train == 0).sum()
+    pos_count = (y_train == 1).sum()
+    imbalance_ratio = neg_count / pos_count
 
     if model_type == "random_forest":
         # 'balanced' automatically adjusts weights inversely proportional to class frequencies

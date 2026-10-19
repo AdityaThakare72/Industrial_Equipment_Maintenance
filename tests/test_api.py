@@ -17,11 +17,12 @@ def client():
     return TestClient(app)
 
 
+# Typical readings from the training data (means: 71 °C, 36 PSI, 1.6 mm/s)
 VALID_PAYLOAD = {
-    "temperature": 300.0,
-    "pressure": 100.0,
-    "vibration": 20.0,
-    "humidity": 45.0,
+    "temperature": 70.0,
+    "pressure": 35.0,
+    "vibration": 1.5,
+    "humidity": 50.0,
     "equipment": "Turbine",
     "location": "Atlanta",
 }
@@ -65,3 +66,32 @@ class TestPredictEndpoint:
             payload = {**VALID_PAYLOAD, "location": loc}
             response = client.post("/predict", json=payload)
             assert response.status_code == 200
+
+
+class TestPredictionBehaviour:
+    def test_typical_readings_are_healthy(self, client):
+        data = client.post("/predict", json=VALID_PAYLOAD).json()
+        assert data["prediction"] == "Healthy"
+        assert data["warnings"] == []
+
+    def test_high_vibration_is_faulty(self, client):
+        payload = {**VALID_PAYLOAD, "vibration": 4.5}
+        assert client.post("/predict", json=payload).json()["prediction"] == "Faulty"
+
+    def test_overheating_is_faulty(self, client):
+        payload = {**VALID_PAYLOAD, "temperature": 130.0}
+        assert client.post("/predict", json=payload).json()["prediction"] == "Faulty"
+
+
+class TestInputWarnings:
+    def test_out_of_range_value_is_flagged(self, client):
+        payload = {**VALID_PAYLOAD, "temperature": 300.0}
+        warnings = client.post("/predict", json=payload).json()["warnings"]
+        assert len(warnings) == 1
+        assert "temperature" in warnings[0]
+
+    def test_unknown_equipment_is_flagged(self, client):
+        payload = {**VALID_PAYLOAD, "equipment": "Boiler"}
+        response = client.post("/predict", json=payload)
+        assert response.status_code == 200
+        assert any("Boiler" in w for w in response.json()["warnings"])

@@ -48,10 +48,10 @@ class TestPreprocessor:
 
     def test_preprocessor_transforms_valid_input(self, preprocessor):
         sample = pd.DataFrame([{
-            "temperature": 300.0,
-            "pressure": 100.0,
-            "vibration": 20.0,
-            "humidity": 45.0,
+            "temperature": 70.0,
+            "pressure": 35.0,
+            "vibration": 1.5,
+            "humidity": 50.0,
             "equipment": "Turbine",
             "location": "Atlanta",
         }])

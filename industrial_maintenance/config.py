@@ -31,6 +31,17 @@ API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
 MODEL_PATH = Path(os.getenv("MODEL_PATH", "models/model.joblib"))
 PREPROCESSOR_PATH = Path(os.getenv("PREPROCESSOR_PATH", "models/preprocessor.joblib"))
 
+# --- Training data ranges ---
+# Min/max of each sensor in the raw training data (7,672 rows, see the EDA
+# notebook). Predictions outside these ranges are extrapolation, so the API
+# flags them and the dashboard keeps its sliders close to them.
+TRAINING_RANGES = {
+    "temperature": (10.3, 149.7),
+    "pressure": (3.6, 79.9),
+    "vibration": (-0.4, 5.0),
+    "humidity": (10.2, 90.0),
+}
+
 # --- MLflow ---
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
 MLFLOW_EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "Industrial_Maintenance_Experiments")
