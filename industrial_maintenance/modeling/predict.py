@@ -43,7 +43,7 @@ def evaluate_model(
 
     # Recreate the same train/test split used during training
     _, X_test, _, y_test = train_test_split(
-        X, y, test_size=0.2,
+        X, y, test_size=shared_params["test_size"],
         random_state=shared_params["random_state"],
         stratify=y
     )

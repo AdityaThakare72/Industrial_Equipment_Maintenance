@@ -12,6 +12,9 @@ stages:
     deps:
       - industrial_maintenance/features.py
       - data/interim/cleaned_data.csv
+    params:
+      - train.random_state
+      - train.test_size
     outs:
       - data/processed/featured_data.csv
   
@@ -34,6 +37,7 @@ stages:
       - models/model.joblib
     params:
       - train.random_state
+      - train.test_size
     metrics:
       - reports/metrics.json:
           cache: false

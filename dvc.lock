@@ -25,28 +25,28 @@ stages:
       size: 707404
     - path: industrial_maintenance/features.py
       hash: md5
-      md5: 4f694c948f4dd6763db17e70754478d6
-      size: 2265
+      md5: bf92c6c246d4432980d5278e1437887a
+      size: 2878
+    params:
+      params.yaml:
+        train.random_state: 42
+        train.test_size: 0.2
     outs:
     - path: data/processed/featured_data.csv
       hash: md5
-      md5: 66e5766101e47d812386bcb47c92460d
-      size: 866824
-    - path: models/preprocessor.joblib
-      hash: md5
-      md5: f096a5db2f9a6e445e7b99580c7a2afb
-      size: 3073
+      md5: 8cc0b9462543eb29bb4b8074a9b1f99f
+      size: 866971
   train:
     cmd: python industrial_maintenance/modeling/train.py
     deps:
     - path: data/processed/featured_data.csv
       hash: md5
-      md5: 66e5766101e47d812386bcb47c92460d
-      size: 866824
+      md5: 8cc0b9462543eb29bb4b8074a9b1f99f
+      size: 866971
     - path: industrial_maintenance/modeling/train.py
       hash: md5
-      md5: 78b849bc60976636d581cda07d303082
-      size: 2865
+      md5: 477d9ef71e1bb562f735a17f604ae446
+      size: 2919
     params:
       params.yaml:
         model_type: xgboost
@@ -65,6 +65,7 @@ stages:
         train:
           cv_folds: 5
           random_state: 42
+          test_size: 0.2
         xgboost:
           param_grid:
             n_estimators:
@@ -80,35 +81,31 @@ stages:
             subsample:
             - 0.8
             - 1.0
-    outs:
-    - path: models/model.joblib
-      hash: md5
-      md5: 3ad74e3fc12020bce9a69ae0cf2f0d4d
-      size: 477812
   evaluate:
     cmd: python industrial_maintenance/modeling/predict.py
     deps:
     - path: data/processed/featured_data.csv
       hash: md5
-      md5: 66e5766101e47d812386bcb47c92460d
-      size: 866824
+      md5: 8cc0b9462543eb29bb4b8074a9b1f99f
+      size: 866971
     - path: industrial_maintenance/modeling/predict.py
       hash: md5
-      md5: ae2ed7135088094df6035444dc13f3a4
-      size: 2774
+      md5: 0a810732b88aebeb7a2a9981de76ee6f
+      size: 2797
     - path: models/model.joblib
       hash: md5
-      md5: 3ad74e3fc12020bce9a69ae0cf2f0d4d
-      size: 477812
+      md5: 292048b132e782ce7c1bd4b25e22e940
+      size: 474940
     params:
       params.yaml:
         train.random_state: 42
+        train.test_size: 0.2
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 91f75f4812dc6e2b4231b871946c1abe
-      size: 623
+      md5: 15c6b2a2910480de2f2c650d36076c36
+      size: 625
     - path: reports/predictions.csv
       hash: md5
-      md5: 20af7d01ac54dddce09d28919318fe69
+      md5: 1c7ec133cbdd3467e2dc89f3af1a8e30
       size: 6157

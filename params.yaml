@@ -5,6 +5,7 @@ model_type: "xgboost"
 train:
   cv_folds: 5
   random_state: 42
+  test_size: 0.2
 
 # Random Forest Specifics
 random_forest:
